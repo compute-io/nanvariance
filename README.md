@@ -19,14 +19,36 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 To use the module,
 
 ``` javascript
-var lib = require( 'compute-nanvariance' );
+var nanvariance = require( 'compute-nanvariance' );
+```
+
+#### nanvariance( arr )
+
+Computes the sample variance ignoring non-numeric values.
+
+``` javascript
+var data = [ 10, 2, 100, NaN, 34, NaN, 0 ];
+
+var s2 = nanvariance( data );
 ```
 
 
 ## Examples
 
 ``` javascript
-var lib = require( 'compute-nanvariance' );
+var nanvariance = require( 'compute-nanvariance' );
+
+var data = new Array( 1000 );
+
+for ( var i = 0; i < data.length; i++ ) {
+	if ( i%5 === 0 ) {
+		data[ i ] = NaN;
+	} else {
+		data[ i ] = Math.random() * 100;
+	}
+}
+
+console.log( nanvariance( data ) );
 ```
 
 To run the example code from the top-level application directory,
@@ -34,6 +56,18 @@ To run the example code from the top-level application directory,
 ``` bash
 $ node ./examples/index.js
 ```
+
+
+## Notes
+
+The sample variance of an array containing non-numeric values is equal to the sample variance of an equivalent array which contains only the numeric values. Hence,
+
+var d1 = [ 1, NaN, 2, 3, NaN ],
+    d2 = [ 1, 2, 3 ];
+
+console.log( nanvariance( d1 ) === nanvariance( d2 ) );
+// returns true
+
 
 
 ## Tests

@@ -25,7 +25,12 @@
   "keywords": [
     "compute.io",
     "compute",
-    "computation"
+    "computation",
+    "statistics",
+    "stats",
+    "variance",
+    "sample variance",
+    "nan"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/nanvariance/issues"
