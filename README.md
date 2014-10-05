@@ -62,11 +62,13 @@ $ node ./examples/index.js
 
 The sample variance of an array containing non-numeric values is equal to the sample variance of an equivalent array which contains only the numeric values. Hence,
 
+``` javascript
 var d1 = [ 1, NaN, 2, 3, NaN ],
     d2 = [ 1, 2, 3 ];
 
 console.log( nanvariance( d1 ) === nanvariance( d2 ) );
 // returns true
+```
 
 
 
