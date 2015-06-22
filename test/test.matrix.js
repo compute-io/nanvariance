@@ -10,7 +10,7 @@ var // Expectation library:
 	matrix = require( 'dstructs-matrix' ),
 
 	// Module to be tested:
-	variance = require( './../lib/matrix.js' );
+	nanvariance = require( './../lib/matrix.js' );
 
 
 // VARIABLES //
@@ -21,7 +21,7 @@ var expect = chai.expect,
 
 // TESTS //
 
-describe( 'matrix variance', function tests() {
+describe( 'matrix nanvariance', function tests() {
 
 	var data,
 		mat,
@@ -41,20 +41,20 @@ describe( 'matrix variance', function tests() {
 	});
 
 	it( 'should export a function', function test() {
-		expect( variance ).to.be.a( 'function' );
+		expect( nanvariance ).to.be.a( 'function' );
 	});
 
-	it( 'should compute the variance along matrix columns', function test() {
+	it( 'should compute the variance along matrix columns ignoring missing values', function test() {
 		var out, p, expected;
 
 		out = matrix( [6,1], 'float64' );
 
-		p = variance( out, mat, [ 999 ] );
+		p = nanvariance( out, mat, [ 999 ] );
 		expected = '2.5;2.5;2.5;2.5;2.5;0';
 
 		assert.strictEqual( p.toString(), expected );
 
-		p = variance( out, mat, [ 999 ], false, 2 );
+		p = nanvariance( out, mat, [ 999 ], false, 2 );
 		expected = '2.5;2.5;2.5;2.5;2.5;0';
 
 		assert.strictEqual( p.toString(), expected );
@@ -63,18 +63,18 @@ describe( 'matrix variance', function tests() {
 		mat.strides[ 0 ] *= -1;
 		mat.offset = mat.length + mat.strides[ 0 ];
 
-		p = variance( out, mat, [ 999 ] );
+		p = nanvariance( out, mat, [ 999 ] );
 		expected = '0;2.5;2.5;2.5;2.5;2.5';
 
 		assert.strictEqual( p.toString(), expected, 'flipud' );
 	});
 
-	it( 'should compute the variance along matrix rows', function test() {
+	it( 'should compute the variance along matrix rows ignoring missing values', function test() {
 		var out, p, expected;
 
 		out = matrix( [1,5], 'float64' );
 
-		p = variance( out, mat, [ 999 ], false, 1 );
+		p = nanvariance( out, mat, [ 999 ], false, 1 );
 		expected = '62.5,62.5,62.5,62.5,62.5';
 
 		assert.strictEqual( p.toString(), expected );
@@ -83,18 +83,18 @@ describe( 'matrix variance', function tests() {
 		mat.strides[ 1 ] *= -1;
 		mat.offset = mat.strides[ 0 ] - 1;
 
-		p = variance( out, mat, [ 999 ], false, 1 );
+		p = nanvariance( out, mat, [ 999 ], false, 1 );
 		expected = '62.5,62.5,62.5,62.5,62.5';
 
 		assert.strictEqual( p.toString(), expected, 'fliplr' );
 	});
 
-	it( 'should compute the population (biased sample) variance', function test() {
+	it( 'should compute the population (biased sample) variance ignoring missing values', function test() {
 		var out, p, expected;
 
 		out = matrix( [1,6], 'float64' );
 
-		p = variance( out, mat, [ 999 ], true, 1 );
+		p = nanvariance( out, mat, [ 999 ], true, 1 );
 		expected = '50,50,50,50,50,0';
 
 		assert.strictEqual( p.toString(), expected );
@@ -106,13 +106,13 @@ describe( 'matrix variance', function tests() {
 		out = matrix( [0,0] );
 
 		mat = matrix( [0,10] );
-		assert.isNull( variance( out, mat, [] ) );
+		assert.isNull( nanvariance( out, mat, [] ) );
 
 		mat = matrix( [10,0] );
-		assert.isNull( variance( out, mat, [] ) );
+		assert.isNull( nanvariance( out, mat, [] ) );
 
 		mat = matrix( [0,0] );
-		assert.isNull( variance( out, mat, [] ) );
+		assert.isNull( nanvariance( out, mat, [] ) );
 	});
 
 });
